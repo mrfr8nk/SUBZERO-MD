@@ -9,7 +9,7 @@
     "SESSION_ID": {
       "description": "Put your Subzero session-id here.",
       "required": true,
-      "value": ""
+      "value": "SUBZERO-MD~zihDzBAB#sx7mqMTWITz0jsfNOm1ZXQ492rAuX4SFY-Hn7vxCx0o"
     },
     "PREFIX": {
       "description": "paste your bot prefix note! Don't apply null prefix.",
@@ -20,12 +20,12 @@
     "OWNER_NUMBER": {
       "description": "put the owner number for bot.",
       "required": false,
-      "value": "263719646303"
+      "value": "256755854081"
     },
     "BOT_NAME": {
       "description": "Type here the bot name.",
-      "required": false,
-      "value": "SUBZERO-MD"
+      "required": true ,
+      "value": "Ethel"
     },
     "BOT_IMAGE": {
       "description": "Put link for Bot Menu Image e.g https://",
