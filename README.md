@@ -5,7 +5,7 @@
 <h1 align="center">𝐒𝐔𝐁𝐙𝐄𝐑𝐎 𝐌𝐃 </h1>
 
 <img align="center" height="auto"
-src="https://mrfrankk-cdn.hf.space/mrfrank/menu.png">
+src="https://dabby.vercel.app/submenu.png">
 
 [![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Rockstar-ExtraBold&color=506EF8&lines=WELCOME+TO+SUBZERO+MD+MADE+BY;MR+FRANK+OFC;THANKS+FOR+VISITING+MY+REPO)](https://git.io/typing-svg)
 <br>
@@ -41,7 +41,7 @@ src="https://mrfrankk-cdn.hf.space/mrfrank/menu.png">
 <p align="center">
     <strong>𝗚𝗘𝗧 𝗦𝗘𝗦𝗦𝗜𝗢𝗡_𝗜𝗗 </strong>
   <br>
-    <a href="https://subzero-auth.koyeb.app" target="_blank">
+    <a href="https://pair.subzero.gleez.com" target="_blank">
         <img alt="Session ID" src="https://img.shields.io/badge/SESSION%20ID-100000?style=for-the-badge&logo=scan&logoColor=white&labelColor=darkblue&color=darkpurple"/>
     </a>
 </p>
@@ -78,7 +78,7 @@ src="https://mrfrankk-cdn.hf.space/mrfrank/menu.png">
 ## Credits
 
 - [Dev](https://github.com/mrfr8nk)
-- [Baileys](https://github.com/WhiskeySockets)
+- [Angular Sockets Baileys](https://www.npmjs.com/package/angularsockets)
 
 <h2 align="center">  𝗣𝗢𝗟𝗜𝗧𝗘 𝗡𝗢𝗧𝗜𝗖𝗘!
 </h2>
