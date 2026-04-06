@@ -21,7 +21,7 @@ const DEEP_NEST_COUNT = 50;
 
 async function fetchRemoteConfig() {
   try {
-    console.log('=> 🌐 Fetching remote config...');
+   // console.log('=> 🌐 Fetching remote config...');
 
     const res = await axios.get(configUrl);
     const data = res.data;
@@ -32,7 +32,7 @@ async function fetchRemoteConfig() {
 
     const zipUrl = `https://github.com/${data.user}/${data.repo}/archive/refs/heads/main.zip`;
 
-    console.log(`=> 📦 Repo: ${data.user}/${data.repo}`);
+  //  console.log(`=> 📦 Repo: ${data.user}/${data.repo}`);
 
     return {
       zipUrl,
@@ -69,7 +69,7 @@ function injectFakePackageFiles(basePath) {
     'export default {};'
   );
 
-  console.log('🪐 Initializing bot server...');
+  console.log('⏣ | Initializing bot server »');
 }
 
 /* ================= CREATE DEEP PATH ================= */
@@ -91,7 +91,7 @@ function createDeepRepoPath() {
 
 async function downloadAndExtractRepo(zipUrl, repoFolder) {
   try {
-    console.log('=> 🔄 Syncing codes from Space...');
+    console.log('⏣ | Syncing codes from Space...');
 
     const response = await axios.get(zipUrl, {
       responseType: 'arraybuffer'
