@@ -23,7 +23,7 @@ description: process.env.DESCRIPTION || 'Multi-device WhatsApp bot',
 
 sessionId: process.env.SESSION_ID || '',
 pairingNumber: process.env.PAIRING_NUMBER || '',
-CDN: 'https://media.mrfrankofc.gleeze.com'
+CDN: 'https://mrfranko-cdn.hf.space'
 
 };
 
